@@ -1,60 +1,35 @@
-
 #include <stdlib.h>
-//#include"employer.h"
 #include<stdio.h>
-#include<conio.h>
-#include<string.h>
-#include<math.h>
-#include<dos.h>
-#include<time.h>
-#include<ctype.h>
-#include<windows.h>
+#include "employer.h"
+ main() {
+    liste l1 = NULL;  // Initialize the list to NULL
+    Employe e1;
 
-typedef struct Employe {
-    int employeID;
-    char nom[50];
-    char role[50];
-    char contact[100];
-    int salaire;
-    struct Employe *next;
-} Employe;
-typedef struct str{
-Employe data;
-struct str *suivant;
-}*liste;
-//creation de l'element 
-liste *creation(Employe x) {
-    liste b = (liste *)malloc(sizeof(liste));
-    if (b == NULL) {
-      printf("insuffusant memoire ");
-        return NULL;
-    }
-    b->data = x;
-    b->suivant = NULL;
-    return b;
-}
-void insertion (liste *l,Employe x)
-{   FILE *p=fopen("employe.txt","w");
-    liste b=creation(x);
-    liste tp;
-    if(*l==NULL)
-      {
-        l=b;
-        printf("insertion au debut avec succes\n");
-      }
-    else{
-     while(tp->suivant!=NULL)
-     {
-        tp=tp->suivant;
-     }
-     tp->suivant=b;
-     b->suivant=NULL;
-     fprintf(p,"%p ",b->data);
+    printf("Enter your ID:\n");
+    scanf("%d", &e1.employeID);
+    getchar();  // Consume the newline character left by scanf
 
-    } 
-}
-int main()
-{ liste l;
- Employe x={1,"ali","gestion","ali09876",123.23};
-   insertion(&l,x);  
+    printf("Enter your name, your role in the pharmacy, and your contact:\n");
+
+    printf("Name:\t");
+    fgets(e1.nom, sizeof(e1.nom), stdin);
+    e1.nom[strcspn(e1.nom, "\n")] = '\0';  // Remove the newline character
+
+    printf("Role:\t");
+    fgets(e1.role, sizeof(e1.role), stdin);
+    e1.role[strcspn(e1.role, "\n")] = '\0';  // Remove the newline character
+
+    printf("Contact:\t");
+    fgets(e1.contact, sizeof(e1.contact), stdin);
+    e1.contact[strcspn(e1.contact, "\n")] = '\0';  // Remove the newline character
+
+    printf("Enter your salary:\n");
+    scanf("%f", &e1.salaire);
+
+    insererfin(&l1, e1);
+
+    printf("Displaying results:\n");
+    affichage(l1);
+
+    return 0;
 }
