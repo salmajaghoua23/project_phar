@@ -4,7 +4,7 @@
 #include <conio.h>
 #include <string.h>
 #include <math.h>
-#include <dos.h>
+#include <direct.h>
 #include <time.h>
 #include <ctype.h>
 #include <stdio.h>
@@ -99,7 +99,7 @@ void insererfin(liste *l, Employe e1) {
 }
 
 void affichage(liste l) {
-    FILE *p = fopen("employer.txt", "r");
+    FILE *p = fopen("employer.txt", "a");
     if (p == NULL) {
         printf("Failed to open file\n");
         exit(1);
@@ -126,6 +126,11 @@ void supp(liste *l, int employeID) {
         return;
     }
 
+FILE *p = fopen("employer.txt", "r");
+    if (p == NULL) {
+        printf("Failed to open file\n");
+        exit(1);
+    }
     liste tp = *l;
     liste prev = NULL;
 
@@ -149,60 +154,8 @@ void supp(liste *l, int employeID) {
     prev->suivant = tp->suivant;
     free(tp);
     printf("Element with ID %d deleted successfully!\n", employeID);
+fprintf(p,"ID: %d, Name: %s, Role: %s, Contact: %s,  Salary: %.2f\n",
+                       tp->data.employeID, tp->data.nom, tp->data.role, tp->data.contact, tp->data.salaire);
+fclose(p);
 }
-
-void employer_menu() 
-   { char ch;
-    liste *l = NULL;
-    Employe e1;
-    system("cls");
-    gotoxy(34, 3);
-    textcolor(2);
-    printf("*-+-+-+-+-+-+-+-*");
-    gotoxy(35, 4);
-    textcolor(2);
-    printf("  Employer Menu  ");
-    gotoxy(34, 5);
-    textcolor(2);
-    printf("*-+-+-+-+-+-+-+-*");
-    gotoxy(25, 11);
-    textcolor(15);
-    printf("\n1-Add New Employer\n");
-    gotoxy(25, 15);
-    textcolor(15);
-    printf("\n2-Update Employer");
-    gotoxy(25, 19);
-    textcolor(15);
-    printf("\n3-Search Employer");
-    gotoxy(25, 23);
-    textcolor(15);
-    printf( "4-Main Menu");
-    box();
-    gotoxy(10, 40);
-    textcolor(15);
-    printf("\t\n\nPress First Character for further Operations.....  ");
-    gotoxy(10, 40);
-    ch = toupper(getche());
-    getc(ch);
-
-    switch(ch) {
-        case '1':
-            insererfin(l, e1);
-            break;
-        case '2':
-            printf("Enter ID of employee to delete:\n");
-            int employeID;
-            scanf("%d", &employeID);
-            supp(l, employeID);
-            break;
-        case '3':
-            affichage(*l);
-            break;
-        case '4':
-            employer_menu();
-            break;
-        default:
-            printf("Not found!!");
-    }
-   }
 #endif // EMPLOYER_H_INCLUDED
