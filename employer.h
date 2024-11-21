@@ -99,7 +99,7 @@ void insererfin(liste *l, Employe e1) {
 }
 
 void affichage(liste l) {
-    FILE *p = fopen("employer.txt", "a");
+    FILE *p = fopen("employer.txt", "r");
     if (p == NULL) {
         printf("Failed to open file\n");
         exit(1);
@@ -120,42 +120,52 @@ void affichage(liste l) {
     printf("Operation successful\n");
 }
 
+
 void supp(liste *l, int employeID) {
     if (*l == NULL) {
-        printf("La liste est vide !!\n");
+        printf("The list is empty!\n");
         return;
     }
 
-FILE *p = fopen("employer.txt", "r");
+    FILE *p = fopen("employer.txt", "w");
     if (p == NULL) {
         printf("Failed to open file\n");
         exit(1);
     }
-    liste tp = *l;
+
+    liste current = *l;
     liste prev = NULL;
+    int found = 0;
 
-    if (tp != NULL && tp->data.employeID == employeID) {
-        *l = tp->suivant;
-        free(tp);
-        printf("Element with ID %d deleted successfully!\n", employeID);
-        return;
+    while (current != NULL) {
+        if (current->data.employeID == employeID) {
+            found = 1;
+            if (prev == NULL) {
+                // Deleting the head
+                *l = current->suivant;
+            } else {
+                prev->suivant = current->suivant;
+            }
+            free(current);
+            printf("Element with ID %d deleted successfully!\n", employeID);
+            break;
+        }
+        prev = current;
+        current = current->suivant;
     }
 
-    while (tp != NULL && tp->data.employeID != employeID) {
-        prev = tp;
-        tp = tp->suivant;
-    }
-
-    if (tp == NULL) {
+    if (!found) {
         printf("Element with ID %d not found!\n", employeID);
-        return;
     }
 
-    prev->suivant = tp->suivant;
-    free(tp);
-    printf("Element with ID %d deleted successfully!\n", employeID);
-fprintf(p,"ID: %d, Name: %s, Role: %s, Contact: %s,  Salary: %.2f\n",
-                       tp->data.employeID, tp->data.nom, tp->data.role, tp->data.contact, tp->data.salaire);
-fclose(p);
+    // Rewrite the list to the file
+    liste temp = *l;
+    while (temp != NULL) {
+        fprintf(p, "%d %s %s %s %.2f\n", temp->data.employeID, temp->data.nom, temp->data.role, temp->data.contact, temp->data.salaire);
+        temp = temp->suivant;
+    }
+
+    fclose(p);
 }
+
 #endif // EMPLOYER_H_INCLUDED

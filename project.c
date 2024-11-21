@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include<stdio.h>
 #include "employer.h"
+#include"medical.h"
+
 int main(){
-     liste l1 = NULL;  // Initialize the list to NULL
+     liste l1 ;  // Initialize the list to NULL
     Employe e1;
 
    /*printf("Enter your ID:\n");
@@ -30,12 +32,12 @@ int main(){
     insererfin(&l1, e1);
 
     printf("Displaying results:\n");
-    affichage(l1);*/
+    affichage(l1);
     int id;
     printf("saisir l'id pour la suppresion\n");
     scanf("%d",&id);
     supp(&l1,id);
-    affichage(l1);
-    //employer_menu();
-    return 0;
+    affichage(l1);*/
+medication_menu();
+return 0;
 }

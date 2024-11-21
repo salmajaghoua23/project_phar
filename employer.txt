@@ -4,3 +4,4 @@
 1 ali gestion 08656664 1400.00
 2 qsl qser 12344 1234.00
 5 ali gestion 087654 1100.00
+7 wail comtable 08765432 2000.00
